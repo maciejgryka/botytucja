@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+
 import os
 import json
+import logging
 from random import sample
 from collections import deque
 
@@ -7,6 +11,13 @@ import tweepy
 
 from .listeners import FollowStreamListener
 
+LOGGING_LEVEL = logging.INFO
+logging.basicConfig(level=LOGGING_LEVEL, stream=sys.stdout)
+logger = logging.getLogger('botytucja')
+logger.setLevel(LOGGING_LEVEL)
+handler = logging.StreamHandler(stream=sys.stdout)
+handler.setLevel(LOGGING_LEVEL)
+logger.addHandler(handler)
 
 MAX_TWEET = 280
 TWITTER_CONSUMER_KEY = os.environ.get('TWITTER_CONSUMER_KEY', None)
@@ -43,7 +54,7 @@ def get_random_article():
     with open('data/konstytucja.json', 'rt') as f:
         articles = json.loads(f.read())['artykuły']
     number, text = sample(articles.items(), 1)[0]
-    return f'Art. {number}. {text}'
+    return 'Art. %s. %s' % (number, text)
 
 
 def tweet(text, in_reply_to_status_id=None, api=None):
@@ -64,7 +75,7 @@ def tweet_a_random_article():
 def get_user_id(handle):
     api = get_api()
     id_str = api.get_user(screen_name=handle).id_str
-    print(f'{id_str} : {handle}')
+    print('%s : %s' % (id_str, handle))
     return id_str
 
 
@@ -81,7 +92,7 @@ def follow():
     stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
 
     user_ids = get_user_ids()
-    print(f'following {user_ids}')
+    print('following %s' %(user_ids))
     stream.filter(follow=user_ids, async=True)
 
 
