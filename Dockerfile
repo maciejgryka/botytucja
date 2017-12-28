@@ -18,7 +18,7 @@ RUN set -ex && pipenv install --deploy --system
 RUN set -ex && python -c "import nltk; nltk.download('punkt')"
 
 COPY . /app
-CMD python botytucja/language.py
+CMD python botytucja/botytucja.py
 
 # RUN useradd -m botytucja
 # USER botytucja
