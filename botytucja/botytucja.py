@@ -3,6 +3,7 @@ from __future__ import print_function
 
 import os
 import json
+import logging
 from random import sample
 from collections import deque
 
@@ -10,6 +11,13 @@ import tweepy
 
 from .listeners import FollowStreamListener
 
+LOGGING_LEVEL = logging.INFO
+logging.basicConfig(level=LOGGING_LEVEL, stream=sys.stdout)
+logger = logging.getLogger('botytucja')
+logger.setLevel(LOGGING_LEVEL)
+handler = logging.StreamHandler(stream=sys.stdout)
+handler.setLevel(LOGGING_LEVEL)
+logger.addHandler(handler)
 
 MAX_TWEET = 280
 TWITTER_CONSUMER_KEY = os.environ.get('TWITTER_CONSUMER_KEY', None)
