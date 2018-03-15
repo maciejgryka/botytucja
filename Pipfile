@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 
-apscheduler = "*"
+APScheduler = "*"
 "beautifulsoup4" = "*"
 requests = "*"
 tweepy = "*"
